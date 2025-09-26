@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дом с хвостом - Питомник животных</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Общие стили */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: #333;
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        section {
+            padding: 60px 0;
+        }
+        
+        h1, h2, h3 {
+            color: #2c5530;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+        }
+        
+        h2 {
+            font-size: 2.2rem;
+            text-align: center;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: #4a7c59;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #3a6348;
+        }
+        
+        .btn-secondary {
+            background-color: #f0a868;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #e09555;
+        }
+        
+        /* Шапка */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c5530;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            color: #4a7c59;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 25px;
+        }
+        
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav ul li a:hover {
+            color: #4a7c59;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #2c5530;
+        }
+        
+        /* Герой секция */
+        .hero {
+            background: linear-gradient(rgba(44, 85, 48, 0.7), rgba(44, 85, 48, 0.7)), url('https://images.unsplash.com/photo-1548199973-03cce0bbc87b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 0;
+        }
+        
+        .hero h1 {
+            color: white;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+        }
+        
+        /* О нас */
+        .about {
+            background-color: white;
+        }
+        
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        /* Наши питомцы */
+        .pets {
+            background-color: #f5f5f5;
+        }
+        
+        .pets-filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            background-color: white;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn.active, .filter-btn:hover {
+            background-color: #4a7c59;
+            color: white;
+            border-color: #4a7c59;
+        }
+        
+        .pets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .pet-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .pet-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .pet-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .pet-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .pet-card:hover .pet-image img {
+            transform: scale(1.05);
+        }
+        
+        .pet-age {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #4a7c59;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+        
+        .pet-info {
+            padding: 20px;
+        }
+        
+        .pet-breed {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 10px;
+        }
+        
+        /* Услуги */
+        .services {
+            background-color: white;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            color: #4a7c59;
+            margin-bottom: 20px;
+        }
+        
+        /* Как помочь */
+        .help {
+            background-color: #f0f7f0;
+        }
+        
+        .help-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .help-option {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            flex: 1;
+            min-width: 250px;
+            max-width: 300px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .help-icon {
+            font-size: 2.5rem;
+            color: #f0a868;
+            margin-bottom: 20px;
+        }
+        
+        /* Контакты */
+        .contact {
+            background-color: white;
+        }
+        
+        .contact-container {
+            display: flex;
+            gap: 40px;
+        }
+        
+        .contact-info, .contact-form {
+            flex: 1;
+        }
+        
+        .contact-details {
+            margin-bottom: 30px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #4a7c59;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        
+        .map {
+            height: 250px;
+            background-color: #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        /* Подвал */
+        footer {
+            background-color: #2c5530;
+            color: white;
+            padding: 50px 0 20px;
+        }
+        
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+        }
+        
+        .footer-col {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .footer-col h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-col ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-col ul li a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 992px) {
+            .about-content, .contact-container {
+                flex-direction: column;
+            }
+            
+            .about-image, .about-text, .contact-info, .contact-form {
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+                padding: 20px;
+            }
+            
+            nav ul.show {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Шапка -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-paw"></i>
+                Дом с хвостом
+            </div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="#home">Главная</a></li>
+                    <li><a href="#about">О нас</a></li>
+                    <li><a href="#pets">Наши питомцы</a></li>
+                    <li><a href="#services">Услуги</a></li>
+                    <li><a href="#help">Как помочь</a></li>
+                    <li><a href="#contact">Контакты</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Герой секция -->
+    <section class="hero" id="home">
+        <div class="container">
+            <h1>Питомник животных "Дом с хвостом"</h1>
+            <p>Мы помогаем бездомным животным найти любящих хозяев и теплый дом. Присоединяйтесь к нашей миссии!</p>
+            <a href="#pets" class="btn">Найти друга</a>
+            <a href="#help" class="btn btn-secondary">Помочь питомнику</a>
+        </div>
+    </section>
+
+    <!-- О нас -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2>О нашем питомнике</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Питомник "Дом с хвостом" был основан в 2015 году с целью спасения и пристройства бездомных животных. За годы работы мы нашли дом для более чем 2000 питомцев.</p>
+                    <p>Наш питомник - это не просто приют, а настоящий реабилитационный центр, где животные получают медицинскую помощь, заботу и подготовку к жизни в семье.</p>
+                    <p>Мы сотрудничаем с волонтерами, ветеринарами и кинологами, чтобы обеспечить нашим подопечным лучшие условия и повысить их шансы на успешное усыновление.</p>
+                    <a href="#contact" class="btn">Связаться с нами</a>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Наш питомник">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Наши питомцы -->
+    <section class="pets" id="pets">
+        <div class="container">
+            <h2>Наши питомцы</h2>
+            <div class="pets-filters">
+                <button class="filter-btn active">Все животные</button>
+                <button class="filter-btn">Собаки</button>
+                <button class="filter-btn">Кошки</button>
+                <button class="filter-btn">Мелкие животные</button>
+            </div>
+            <div class="pets-grid">
+                <!-- Питомец 1 -->
+                <div class="pet-card">
+                    <div class="pet-image">
+                        <img src="https://images.unsplash.com/photo-1552053831-71594a27632d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Бобик">
+                        <div class="pet-age">2 года</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3>Бобик</h3>
+                        <div class="pet-breed">Метис овчарки</div>
+                        <p>Дружелюбный и активный пёс. Обожает длительные прогулки и игры с мячом.</p>
+                        <a href="#" class="btn">Узнать больше</a>
+                    </div>
+                </div>
+                
+                <!-- Питомец 2 -->
+                <div class="pet-card">
+                    <div class="pet-image">
+                        <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Мурка">
+                        <div class="pet-age">1.5 года</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3>Мурка</h3>
+                        <div class="pet-breed">Дворовая кошка</div>
+                        <p>Ласковая и спокойная кошечка. Идеально подойдет для семьи с детьми.</p>
+                        <a href="#" class="btn">Узнать больше</a>
+                    </div>
+                </div>
+                
+                <!-- Питомец 3 -->
+                <div class="pet-card">
+                    <div class="pet-image">
+                        <img src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Рекс">
+                        <div class="pet-age">3 года</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3>Рекс</h3>
+                        <div class="pet-breed">Немецкая овчарка</div>
+                        <p>Умный и преданный пес. Прошел базовый курс дрессировки.</p>
+                        <a href="#" class="btn">Узнать больше</a>
+                    </div>
+                </div>
+                
+                <!-- Питомец 4 -->
+                <div class="pet-card">
+                    <div class="pet-image">
+                        <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80" alt="Барсик">
+                        <div class="pet-age">4 месяца</div>
+                    </div>
+                    <div class="pet-info">
+                        <h3>Барсик</h3>
+                        <div class="pet-breed">Котенок</div>
+                        <p>Игривый и любознательный малыш. Ищет активных хозяев.</p>
+                        <a href="#" class="btn">Узнать больше</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Услуги -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2>Наши услуги</h2>
+            <div class="services-grid">
+                <!-- Услуга 1 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-home"></i>
+                    </div>
+                    <h3>Передержка животных</h3>
+                    <p>Временное содержание питомцев на период отпуска или командировки хозяев.</p>
+                </div>
+                
+                <!-- Услуга 2 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-stethoscope"></i>
+                    </div>
+                    <h3>Ветеринарная помощь</h3>
+                    <p>Консультации, вакцинация, лечение и профилактические осмотры.</p>
+                </div>
+                
+                <!-- Услуга 3 -->
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Дрессировка</h3>
+                    <p>Курсы послушания, коррекция поведения, подготовка к выставкам.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Как помочь -->
+    <section class="help" id="help">
+        <div class="container">
+            <h2>Как вы можете помочь</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 40px;">Наш питомник существует благодаря помощи неравнодушных людей. Любая поддержка важна для наших подопечных!</p>
+            
+            <div class="help-options">
+                <div class="help-option">
+                    <div class="help-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3>Волонтерство</h3>
+                    <p>Помогите ухаживать за животными, выгуливать их или организовывать мероприятия.</p>
+                    <a href="#contact" class="btn">Стать волонтером</a>
+                </div>
+                
+                <div class="help-option">
+                    <div class="help-icon">
+                        <i class="fas fa-donate"></i>
+                    </div>
+                    <h3>Финансовая помощь</h3>
+                    <p>Пожертвования на корм, лечение и содержание животных.</p>
+                    <a href="#contact" class="btn">Сделать пожертвование</a>
+                </div>
+                
+                <div class="help-option">
+                    <div class="help-icon">
+                        <i class="fas fa-box-open"></i>
+                    </div>
+                    <h3>Материальная помощь</h3>
+                    <p>Корм, лекарства, поводки, ошейники, игрушки и другие необходимые вещи.</p>
+                    <a href="#contact" class="btn">Узнать что нужно</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2>Контакты</h2>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h3>Адрес</h3>
+                                <p>г. Москва, ул. Пушкинская, д. 42</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h3>Телефон</h3>
+                                <p>+7 (495) 765-43-21</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h3>Email</h3>
+                                <p>info@dom-s-hvostom.ru</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <h3>Режим работы</h3>
+                                <p>Ежедневно: 10:00-18:00<br>Выходной: понедельник</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="map">
+                        <!-- Здесь будет карта -->
+                        <div style="width: 100%; height: 100%; background-color: #e9e9e9; display: flex; align-items: center; justify-content: center;">
+                            <p>Карта расположения питомника</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <h3>Оставьте заявку</h3>
+                    <form>
+                        <div class="form-group">
+                            <label for="name">Ваше имя</label>
+                            <input type="text" id="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Телефон</label>
+                            <input type="tel" id="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="interest">Меня интересует</label>
+                            <select id="interest">
+                                <option value="adoption">Усыновление животного</option>
+                                <option value="volunteer">Волонтерство</option>
+                                <option value="donation">Пожертвование</option>
+                                <option value="service">Услуги питомника</option>
+                                <option value="other">Другое</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Сообщение</label>
+                            <textarea id="message" placeholder="Расскажите о ваших пожеланиях..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn">Отправить заявку</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <div class="container">
+            <div class="footer-container">
+                <div class="footer-col">
+                    <h3>Дом с хвостом</h3>
+                    <p>Питомник животных с 2015 года. Мы помогаем бездомным животным найти любящих хозяев и теплый дом.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-vk"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Наши питомцы</h3>
+                    <ul>
+                        <li><a href="#">Собаки</a></li>
+                        <li><a href="#">Кошки</a></li>
+                        <li><a href="#">Котята</a></li>
+                        <li><a href="#">Щенки</a></li>
+                        <li><a href="#">Мелкие животные</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Как помочь</h3>
+                    <ul>
+                        <li><a href="#">Стать волонтером</a></li>
+                        <li><a href="#">Сделать пожертвование</a></li>
+                        <li><a href="#">Передать корм и вещи</a></li>
+                        <li><a href="#">Стать опекуном</a></li>
+                        <li><a href="#">Рассказать о нас</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-col">
+                    <h3>Контакты</h3>
+                    <ul>
+                        <li><i class="fas fa-map-marker-alt"></i> г. Москва, ул. Пушкинская, д. 42</li>
+                        <li><i class="fas fa-phone"></i> +7 (495) 765-43-21</li>
+                        <li><i class="fas fa-envelope"></i> info@dom-s-hvostom.ru</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Питомник животных "Дом с хвостом". Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Мобильное меню
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('show');
+        });
+        
+        // Фильтрация питомцев
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Убираем активный класс у всех кнопок
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                // Добавляем активный класс текущей кнопке
+                this.classList.add('active');
+                
+                // Здесь будет логика фильтрации питомцев
+                // В реальном проекте здесь будет код для показа/скрытия карточек
+            });
+        });
+        
+        // Плавная прокрутка к якорям
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Закрываем мобильное меню после клика
+                    if (window.innerWidth <= 768) {
+                        document.querySelector('nav ul').classList.remove('show');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
